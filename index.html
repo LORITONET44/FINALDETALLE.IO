@@ -82,14 +82,14 @@
     <div class="modal-content" id="messageContainer"></div>
   </div>
 
-  <!-- Audio de piano -->
+  <!-- Audio romántico en bucle -->
   <audio id="bgMusic" loop>
     <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_cee1e29962.mp3" type="audio/mpeg">
     Tu navegador no soporta audio HTML5.
   </audio>
 
   <script>
-    // Corazones en forma de corazón
+    // Corazones animados
     const canvas = document.getElementById("heartCanvas");
     const ctx = canvas.getContext("2d");
     let hearts = [];
@@ -132,12 +132,13 @@
 
     drawHearts();
 
-    // Modal y animación letra por letra
+    // Modal y mensaje animado
     const modal = document.getElementById("modal");
     const messageContainer = document.getElementById("messageContainer");
     const bgMusic = document.getElementById("bgMusic");
+
     const message = `Se lo que piensas de mi , y no pienso cambiar eso , se que somo amigos o mejores amigos y eso no cambiara pero siendo sincero yo no veo las cosas asi , me gusta decir estas cosas en persona , pero cada q te veo me da miedo , quiero decirte en este momento que es mejor dejar las cosas asi , como dos personas , no quiero seguir pensando cosas q se que no pasaran , si quieres hablar esto en persona dale , pero no quiero seguir serca de ti , se que si sigo serca voy es a seguir enamorandome cada vez mas y esas cosas nunca van a funcionar.
-  
+
 Te quiero mucho.
 
 Siento que es lo mejor.
@@ -147,8 +148,9 @@ No quiero sonar como un niño pero no quiero dañar esto de mala manera solo dar
     function openModal() {
       modal.style.display = "flex";
       messageContainer.innerHTML = "";
+      bgMusic.currentTime = 0; // Reinicia desde el inicio
       bgMusic.play().catch(() => {
-        console.log("El navegador bloqueó el audio hasta una interacción directa.");
+        console.log("Autoplay bloqueado por el navegador.");
       });
 
       for (let i = 0; i < message.length; i++) {
