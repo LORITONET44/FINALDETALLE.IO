@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mensaje Especial</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #ffdde1;
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    button {
+      z-index: 1;
+      padding: 15px 25px;
+      background-color: #ff5e78;
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 16px;
+      max-width: 90vw;
+      color: #333;
+      font-size: 16px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+    }
+
+    .letter {
+      opacity: 0;
+      animation: appear 0.05s forwards;
+    }
+
+    @keyframes appear {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="heartCanvas"></canvas>
+
+  <button onclick="openModal()">Ver mensaje</button>
+
+  <div class="modal" id="modal">
+    <div class="modal-content" id="messageContainer"></div>
+  </div>
+
+  <script>
+    // Corazones en forma de corazón
+    const canvas = document.getElementById("heartCanvas");
+    const ctx = canvas.getContext("2d");
+    let hearts = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function heartPath(t) {
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t)
+              - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+      return { x, y };
+    }
+
+    for (let i = 0; i < 100; i++) {
+      const t = Math.random() * Math.PI * 2;
+      const speed = 0.01 + Math.random() * 0.01;
+      hearts.push({ t, speed, size: 5 + Math.random() * 5 });
+    }
+
+    function drawHearts() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let h of hearts) {
+        const pos = heartPath(h.t);
+        const x = canvas.width / 2 + pos.x * 10;
+        const y = canvas.height / 2 + pos.y * 10;
+        ctx.fillStyle = "rgba(255, 100, 150, 0.8)";
+        ctx.beginPath();
+        ctx.arc(x, y, h.size, 0, 2 * Math.PI);
+        ctx.fill();
+        h.t += h.speed;
+        if (h.t > 2 * Math.PI) h.t -= 2 * Math.PI;
+      }
+      requestAnimationFrame(drawHearts);
+    }
+
+    drawHearts();
+
+    // Modal y animación letra por letra
+    const modal = document.getElementById("modal");
+    const messageContainer = document.getElementById("messageContainer");
+    const message = `Se lo que piensas de mi , y no pienso cambiar eso , se que somo amigos o mejores amigos y eso no cambiara pero siendo sincero yo no veo las cosas asi , me gusta decir estas cosas en persona , pero cada q te veo me da miedo , quiero decirte en este momento que es mejor dejar las cosas asi , como dos personas , no quiero seguir pensando cosas q se que no pasaran , si quieres hablar esto en persona dale , pero no quiero seguir serca de ti , se que si sigo serca voy es a seguir enamorandome cada vez mas y esas cosas nunca van a funcionar.
+  
+Te quiero mucho.
+
+Siento que es lo mejor.
+
+No quiero sonar como un niño pero no quiero dañar esto de mala manera solo darme un respiro.`;
+
+    function openModal() {
+      modal.style.display = "flex";
+      messageContainer.innerHTML = "";
+      for (let i = 0; i < message.length; i++) {
+        const span = document.createElement("span");
+        span.textContent = message[i];
+        span.classList.add("letter");
+        span.style.animationDelay = `${i * 80}ms`; // más lento
+        messageContainer.appendChild(span);
+      }
+    }
+
+    modal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+  </script>
+</body>
+</html>
