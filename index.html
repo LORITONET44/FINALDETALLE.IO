@@ -19,15 +19,25 @@
       color: #333;
     }
 
-    /* Video de fondo */
-    #bgVideo {
+    /* Fondo video YouTube */
+    #video-background {
       position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none; /* Que no interfiera con clicks */
       z-index: -2;
+      overflow: hidden;
+    }
+    #video-background iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 177.77vh; /* Mantiene ratio 16:9 */
+      height: 100vh;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
     }
 
     canvas {
@@ -95,11 +105,15 @@
   </style>
 </head>
 <body>
-  <!-- Video de fondo -->
-  <video autoplay muted loop playsinline id="bgVideo">
-    <source src="https://www.videvo.net/videvo_files/converted/2017_08/preview/170720_Love_01.mp438402.webm" type="video/webm">
-    Tu navegador no soporta video HTML5.
-  </video>
+  <!-- Fondo video YouTube -->
+  <div id="video-background">
+    <iframe
+      src="https://www.youtube.com/embed/24L5UODYcA0?autoplay=1&mute=1&controls=0&loop=1&playlist=24L5UODYcA0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      ></iframe>
+  </div>
 
   <canvas id="heartCanvas"></canvas>
 
