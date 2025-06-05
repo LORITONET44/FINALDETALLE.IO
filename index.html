@@ -5,10 +5,14 @@
   <title>Gracias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #1f1c2c, #928dab);
+      background: linear-gradient(to right, #141e30, #243b55);
       color: white;
       display: flex;
       justify-content: center;
@@ -22,15 +26,15 @@
       font-size: 3rem;
       letter-spacing: 3px;
       white-space: nowrap;
-      border-right: 3px solid rgba(255,255,255,0.75);
       overflow: hidden;
+      border-right: 3px solid rgba(255,255,255,0.75);
       width: 0;
       animation: typing 4s steps(20) forwards, blink 0.7s step-end infinite;
     }
 
     @keyframes typing {
       from { width: 0; }
-      to { width: 19ch; }
+      to { width: 18ch; }
     }
 
     @keyframes blink {
@@ -38,43 +42,161 @@
       50% { border-color: white; }
     }
 
+    .heart-container {
+      margin-top: 60px;
+      animation: pulse 2s infinite ease-in-out, rotate 10s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .heart {
+      width: 150px;
+      height: 150px;
+      background-color: red;
+      position: relative;
+      transform: rotate(-45deg);
+      border-radius: 50% 50% 0 0;
+      box-shadow: 0 0 20px red;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 150px;
+      height: 150px;
+      background-color: red;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -75px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 75px;
+      top: 0;
+    }
+
     .btn {
-      margin-top: 40px;
-      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       padding: 15px 30px;
-      font-size: 1.2rem;
-      background-color: #ffffff22;
-      border: 2px solid white;
-      color: white;
-      border-radius: 12px;
+      font-size: 1.1rem;
+      background-color: #ffffffcc;
+      border: none;
+      border-radius: 10px;
+      color: #141e30;
       cursor: pointer;
-      transition: all 0.4s ease;
-      animation: fadeIn 2s ease forwards;
-      animation-delay: 5s;
-      pointer-events: none;
+      transition: background 0.3s ease;
     }
 
     .btn:hover {
       background-color: white;
-      color: #1f1c2c;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0,0,0,0.7);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .modal-content {
+      background: white;
+      color: #333;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 500px;
+      animation: zoomIn 0.5s ease forwards;
+      box-shadow: 0 0 20px #fff;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      color: #e91e63;
+    }
+
+    .modal-content p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      background: #c2185b;
     }
 
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-        pointer-events: auto;
-      }
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes zoomIn {
+      from {transform: scale(0.5);}
+      to {transform: scale(1);}
     }
   </style>
 </head>
 <body>
 
   <div class="message">GRACIAS POR TODO</div>
-  <button class="btn" onclick="showMessage()">Ver mensaje final</button>
+
+  <div class="heart-container" style="animation-delay: 5s; animation-fill-mode: both;">
+    <div class="heart">
+      <button class="btn" onclick="showModal()">Ver mensaje final</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h2>Adiós...</h2>
+      <p>
+        ESTE ES EL ÚLTIMO ADIÓS DE MI PARTE,<br>
+        TE DESEO LO MEJOR CON TODO MI CORAZÓN.<br><br>
+        SOLO TE PIDO QUE IGNORES TODO ESTO Y QUE ME IGNORES COMO SI ESTO NUNCA EXISTIÓ O COMO SI NUNCA EXISTIRÁ.<br><br>
+        ADIÓS.<br><br>
+        <strong>ATT: DEIVY</strong>
+      </p>
+      <button class="close-btn" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
 
   <script>
-    function showMessage() {
-      alert("ESTE ES EL ULTIMO ADIOS DE MI PARTE, TE DESEO LO MEJOR CON TODO MI CORAZÓN. SOLO TE PIDO QUE IGNORES TODO ESTO Y QUE ME IGNORES COMO SI ESTO NUNCA EXISTIÓ O COMO SI NUNCA EXISTIRÁ. ADIÓS\n\nATT: DEIVY");
+    function showModal() {
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
     }
   </script>
 
