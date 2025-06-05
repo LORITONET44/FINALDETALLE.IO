@@ -5,9 +5,161 @@
   <title>Gracias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* ... (todo igual que el código anterior hasta aquí) ... */
-    
-    /* Pétalos de rosa (caída animada) */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f8cdda, #fbc2eb);
+      color: #6a1b4d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    .message {
+      font-size: 2rem;
+      text-align: center;
+      letter-spacing: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid rgba(255, 105, 180, 0.75);
+      width: 0;
+      animation: typing 4s steps(20) forwards, blink 0.7s step-end infinite;
+      color: #b80057;
+      margin-top: 30px;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 18ch; }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent; }
+      50% { border-color: #b80057; }
+    }
+
+    .heart-container {
+      margin-top: 60px;
+      animation: pulse 2s infinite ease-in-out;
+      display: flex;
+      justify-content: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .heart {
+      width: 120px;
+      height: 120px;
+      background-color: #ff69b4;
+      position: relative;
+      transform: rotate(-45deg);
+      border-radius: 50% 50% 0 0;
+      box-shadow: 0 0 15px #ff69b4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 120px;
+      height: 120px;
+      background-color: #ff69b4;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -60px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 60px;
+      top: 0;
+    }
+
+    .btn {
+      position: relative;
+      transform: rotate(45deg);
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #ffffffcc;
+      border: none;
+      border-radius: 8px;
+      color: #880e4f;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      z-index: 10;
+    }
+
+    .btn:hover {
+      background-color: white;
+    }
+
+    .modal-interface {
+      margin-top: 30px;
+      max-width: 90%;
+      width: 400px;
+      background: #fff0f5;
+      border: 2px solid #ff8dc7;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px #ffb6c1;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.6s ease;
+      z-index: 100;
+    }
+
+    .modal-interface.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .modal-interface h2 {
+      margin-bottom: 15px;
+      color: #e91e63;
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    .modal-interface p {
+      font-size: 1rem;
+      line-height: 1.5;
+      text-align: center;
+      color: #6a1b4d;
+    }
+
+    .close-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 20px;
+      background: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      background: #d81b60;
+    }
+
     .petal {
       position: fixed;
       top: -50px;
@@ -16,7 +168,7 @@
       background-image: url('https://cdn-icons-png.flaticon.com/512/3466/3466740.png');
       background-size: cover;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
       animation: fall 10s linear infinite;
     }
 
@@ -30,18 +182,63 @@
         opacity: 0;
       }
     }
+
+    @media (max-width: 400px) {
+      .message {
+        font-size: 1.7rem;
+      }
+
+      .heart {
+        width: 90px;
+        height: 90px;
+      }
+
+      .heart::before,
+      .heart::after {
+        width: 90px;
+        height: 90px;
+      }
+
+      .heart::before {
+        top: -45px;
+      }
+
+      .heart::after {
+        left: 45px;
+      }
+
+      .btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+
+    /* Música botón */
+    .music-btn {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      z-index: 1000;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      box-shadow: 0 0 10px #ff69b4;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Música de fondo -->
+  <!-- Música -->
   <audio id="bgMusic" loop>
     <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mp3">
     Tu navegador no soporta audio.
   </audio>
-
-  <!-- Botón para reproducir música (opcional para móviles) -->
-  <button onclick="document.getElementById('bgMusic').play()" style="position: fixed; bottom: 15px; right: 15px; z-index: 1000; background: #ff69b4; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem;">🎵</button>
+  <button onclick="document.getElementById('bgMusic').play()" class="music-btn">🎵</button>
 
   <!-- Texto principal -->
   <div class="message">GRACIAS POR TODO</div>
@@ -53,7 +250,7 @@
     </div>
   </div>
 
-  <!-- Modal como interfaz -->
+  <!-- Modal -->
   <div id="modalInterface" class="modal-interface">
     <h2>Adiós...</h2>
     <p>
@@ -66,6 +263,7 @@
     <button class="close-btn" onclick="toggleModal()">Cerrar</button>
   </div>
 
+  <!-- Script -->
   <script>
     function toggleModal() {
       const modal = document.getElementById('modalInterface');
@@ -73,7 +271,7 @@
       modal.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Crear pétalos animados
+    // Crear pétalos
     function createPetal() {
       const petal = document.createElement('div');
       petal.classList.add('petal');
